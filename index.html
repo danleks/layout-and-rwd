@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Layout i RWD</title>
+</head>
+<style>
+    :root {
+        --headerBg:#1A1C22;
+        --sidebarBg:#6C757D;
+        --contentBg: #343A40;
+        --footerBg:#1A1C22;
+
+        --headerHeight: 100px;
+        --headerWidth: 100%;
+        --footerHeight: 100px;
+        --footerWidth: 100%;
+        --minContent: 400px;
+        --gap: 15px;
+
+    }
+
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        height: 100vh;
+        min-height: 100%;
+        display: grid;
+        grid-template-rows: auto minmax(var(--minContent), 1fr) auto;
+        grid-template-columns: 100%;
+        grid-gap: var(--gap);
+    }
+
+    .header {
+        height: var(--headerHeight);
+        width: var(--headerWidth);
+        background-color: var(--headerBg);
+    }
+
+    .main {
+        display: grid;
+        grid-template-rows: 50% 50%;
+        grid-gap: var(--gap);
+        overflow: auto;
+    }
+
+    .main__sidebar {
+        background-color: var(--sidebarBg);
+    }
+
+    .main__list {
+        display: grid;
+        grid-gap: var(--gap);
+        list-style: none;
+    }
+
+    .main__content {
+        background-color: var(--contentBg);
+    }
+
+    .footer {
+        height: var(--footerHeight);
+        width: var(--footerWidth);
+        background-color: var(--footerBg);
+    }
+
+    @media(min-width: 600px) and (max-width: 900px) {
+        .main__list {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media(min-width: 900px) {
+        .main {
+            grid-template-rows: unset;
+            grid-template-columns: 400px 1fr;
+        }
+    }
+
+    @media(min-width: 900px) and (max-width: 1200px) {
+        .main__list {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media(min-width: 1200px) {
+        .main__list {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+</style>
+<body>
+    <header class="header"></header>
+    <main class="main">
+        <aside class="main__sidebar"></aside>
+        <ul class="main__list">
+            <li class="main__content"></li>
+        </ul>
+    </main>
+    <footer class="footer"></footer>
+</body>
+
+<script>
+    const layout = {
+        init: function init() {
+            this.content = document.querySelector('li');
+
+            this.cloneNode(this.content, 6, true);
+
+            return this;
+        },
+
+        cloneNode: function cloneNode(node, numberOfCopies, deep){
+            // copying repetative html and inserting it
+            for (let i = 0; i < numberOfCopies - 1; i++) {
+                let copy = node.cloneNode(deep);
+                node.parentNode.insertBefore(copy, node);
+            };
+        },
+    };
+
+    layout.init();
+</script>
+</html>
